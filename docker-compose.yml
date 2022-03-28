@@ -1,0 +1,40 @@
+services:
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+      - ./prom-test/:/srv/www/prom-test
+
+  go:
+    container_name: go
+    build:
+      context: .
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    # prometheus runs on 9090
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prom/:/config
+      - ./prom/data:/prometheus/data
+    command:
+      - "--config.file=/config/prometheus.yml"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - ./grafana/grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_AUTH_DISABLE_LOGIN_FORM=false
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - 3000:3000
