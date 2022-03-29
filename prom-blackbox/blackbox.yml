@@ -1,0 +1,17 @@
+# This is a simple config
+# More can be found at 
+# https://github.com/prometheus/blackbox_exporter/blob/master/example.yml
+
+modules: 
+  http_2xx: # modules are named by the user
+    prober: http # can be tcp, icmp, or dns (see example.yml above)
+    timeout: 15s
+    http: # by default, success is 2xx
+      # fail_if_not_ssl: true # requests MUST be https
+      method: GET
+      follow_redirects: true
+      preferred_ip_protocol: ip4
+      ip_protocol_fallback: false # do not fallback to ipv6 (defaults true)
+      valid_http_versions: 
+        - HTTP/1.1
+        - HTTP/2.0

@@ -1,10 +1,10 @@
 global:
-  scrape_interval:     15s # By default, scrape targets every 15 seconds.
-
+  scrape_interval: 15s # By default, scrape targets every 15 seconds.
+  scrape_timeout: 10s
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
-    monitor: 'codelab-monitor'
+    monitor: 'test-monitor'
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
@@ -12,7 +12,31 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'go'
     scrape_interval: 10s
+    scrape_timeout: 10s
     metrics_path: /sneed/metrics
     static_configs:
       - targets:
         - go:8080
+
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module:
+        - http_2xx
+    static_configs:
+      - targets:
+        - https://google.com # usually the scrape, address, but will be change with relabling
+        - http://go:8080/sneed/feed
+    relabel_configs:
+      # take the static config target host (google), and add it as a parameter called target
+      - source_labels:
+          - __address__
+        target_label: __param_target
+      # with the for all the values in target, create a label instance
+      # the metrics that come back will have instance labels for each target 
+      - source_labels:
+          - __param_target
+        target_label: instance    
+      # replace the target address with the blackbox exporter.
+      - target_label: __address__ 
+        replacement: bbe:9115 #     

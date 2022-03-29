@@ -7,12 +7,22 @@ services:
       - 8080:8080
     volumes:
       - ./nginx/:/etc/nginx/conf.d/
-      - ./prom-test/:/srv/www/prom-test
+      - ./www/prom-test/:/srv/www/prom-test
 
   go:
     container_name: go
     build:
       context: .
+
+  blackbox-exporter:
+    container_name: bbe
+    image: prom/blackbox-exporter:latest
+    ports:
+      - 9115:9115
+    volumes:
+      - ./prom-blackbox:/config
+    command:
+      - "--config.file=/config/blackbox.yml"
 
   prometheus:
     container_name: prometheus
