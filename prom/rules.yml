@@ -1,0 +1,13 @@
+groups:
+- name: AllInstances
+  rules:
+  - alert: InstanceDown # corresponds to alertname in the alertmanager config
+    expr: up == 0 # Condition for alerting
+    for: 1m # alert if expression is true for greater than a minute
+    # Annotation - additional informational labels to store more information
+    annotations:
+      title: 'Instance {{ $labels.instance }} down'
+      description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
+    # Labels - additional labels to be attached to the alert
+    labels:
+      severity: 'critical'

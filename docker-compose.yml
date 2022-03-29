@@ -48,3 +48,13 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     ports:
       - 3000:3000
+      
+  # alert-manager:
+  #   image: prom/alertmanager:latest
+  #   container_name: alert-manager
+  #   ports:
+  #     - 9093:9093
+  #   volumes:
+  #     - ./prom-alert:/config
+  #     - ./prom-alert/data:/data
+  #   command: --config.file=/config/alertmanager.yml

@@ -1,5 +1,5 @@
 # This is a simple config
-# More can be found at 
+# More info can be found at 
 # https://github.com/prometheus/blackbox_exporter/blob/master/example.yml
 
 modules: 

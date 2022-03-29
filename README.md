@@ -24,3 +24,4 @@ The aim is to make it as simple as possible from a beginners point of view.
 ## Other
 
 - The nginx config is configured to only allow curl, postman and mozilla user agents to show how bots can be fobbed off
+- The alert manager does not work as it is commented out in the compose file, as well as the `prometheus.yml`. It also does not have valid slack credentials in the `alertmanager.yml`. If these are corrected, it should work.

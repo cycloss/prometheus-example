@@ -40,3 +40,15 @@ scrape_configs:
       # replace the target address with the blackbox exporter.
       - target_label: __address__ 
         replacement: bbe:9115 #     
+
+# Alerting specifies settings related to the Alertmanager
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#       - targets:
+#         # Alertmanager's default port is 9093
+#         - alert-manager:9093
+
+# Rules and alerts are read from the specified file(s)
+# rule_files:
+#   - rules.yml
